@@ -106,3 +106,130 @@ After training, we check how good the model is using evaluation metrics.
 3. Once trained, the model can predict \( Y \) for new \( X \) values.
 4. The model is evaluated using metrics like MSE and R² score.
 
+
+
+# Polynomial Regression & Neural Networks: Improving Accuracy
+
+## Problem with Linear Regression
+In Multiple Linear Regression, we assume a linear relationship:
+
+\[ Y = a_1 X_1 + a_2 X_2 + ... + a_n X_n + b \]
+
+However, in real-world scenarios (such as house price prediction), relationships are often non-linear.
+
+### Example:
+- A house with 2500 sqft may not cost exactly twice as much as a 1250 sqft house.
+- Factors like exponential growth, saturation, or diminishing returns influence prices.
+- Solution? Use **Polynomial Regression** or **Neural Networks** for better accuracy.
+
+---
+
+## 1. Polynomial Regression
+### What is Polynomial Regression?
+Polynomial Regression extends Linear Regression by introducing higher-degree (non-linear) terms:
+
+\[ Y = a_1 X + a_2 X^2 + a_3 X^3 + ... + a_n X^n + b \]
+
+**Advantages:**
+- Captures curved relationships instead of just straight lines.
+- Useful when price growth is exponential or non-linear.
+
+### Example: Polynomial Regression in Python
+#### Convert Features to Polynomial Form
+```python
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import make_pipeline
+
+# Create polynomial features (degree = 2)
+poly_model = make_pipeline(PolynomialFeatures(degree=2), LinearRegression())
+
+# Train model
+poly_model.fit(X_train, Y_train)
+
+# Predict & Evaluate
+Y_pred_poly = poly_model.predict(X_test)
+r2_poly = r2_score(Y_test, Y_pred_poly)
+
+print("Polynomial Regression R² Score:", r2_poly)
+```
+
+#### How Does It Help?
+- **Degree 1 (Linear):** Straight Line (low accuracy for non-linear data)
+- **Degree 2+:** Captures curves & complex patterns
+
+---
+
+## 2. Neural Networks for House Price Prediction
+### How Do Neural Networks Work?
+Neural Networks mimic the human brain and learn complex relationships using layers of neurons.
+
+**Linear Regression Formula:**
+\[ Y = a_1 X_1 + a_2 X_2 + ... + a_n X_n + b \]
+
+Neural networks apply this multiple times using hidden layers with activation functions:
+
+\[ Y = f(W_2 \cdot f(W_1 \cdot X + b_1) + b_2) \]
+
+Where:
+- **W₁, W₂** = weights (learned from data)
+- **b₁, b₂** = biases
+- **f(x)** = activation function (e.g., ReLU)
+
+**Advantages:**
+- Can learn highly non-linear relationships.
+- Works well when data is large & complex.
+
+### Neural Network Implementation for House Price Prediction
+```python
+import tensorflow as tf
+from tensorflow import keras
+
+# Define Neural Network
+model = keras.Sequential([
+    keras.layers.Dense(10, activation='relu', input_shape=(5,)),  # Input Layer (5 features)
+    keras.layers.Dense(10, activation='relu'),  # Hidden Layer
+    keras.layers.Dense(1)  # Output Layer (House Price)
+])
+
+# Compile the model
+model.compile(optimizer='adam', loss='mean_squared_error')
+
+# Train the model
+model.fit(X_train, Y_train, epochs=100, verbose=1)
+
+# Predict
+Y_pred_nn = model.predict(X_test)
+
+# Evaluate
+r2_nn = r2_score(Y_test, Y_pred_nn)
+print("Neural Network R² Score:", r2_nn)
+```
+
+---
+
+## Why Do Neural Networks Perform Better?
+1. **Automatically Extracts Features**
+   - Finds hidden patterns, like the effect of crime rate on house prices.
+2. **Handles Non-Linear Relationships**
+   - Adapts when factors impact prices differently at various levels.
+3. **Learns Interactions**
+   - Captures dependencies between features, such as square footage and location.
+
+---
+
+## Which One Should You Use?
+| Model                 | Handles Non-Linearity? | Works on Large Data? | Performance |
+|----------------------|----------------------|----------------------|------------|
+| **Linear Regression** | No                 |  Yes               | OK (Simple) |
+| **Polynomial Regression** |  Yes (Curved)    |  No (Overfits on large data) |  Good |
+| **Neural Networks**   |  Best             |  Best            |  Amazing! |
+
+---
+
+## Conclusion
+- **Use Polynomial Regression** when non-linearity exists but data is small.
+- **Use Neural Networks** when dealing with large, complex datasets for higher accuracy.
+
+
+
