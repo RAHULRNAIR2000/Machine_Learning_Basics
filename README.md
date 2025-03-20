@@ -13,7 +13,7 @@ ML is broadly classified into three categories:
 ## Supervised Learning (Detailed Explanation)
 Supervised learning is the most common type of ML. In this approach:
 
-- The model is provided with input (X) and the correct output (Y).
+- The model is provided with input (X) and the correct output (Y)
 - The model learns the relationship between X and Y.
 - After training, the model can predict Y for new X values.
 
