@@ -15,7 +15,7 @@ Supervised learning is the most common type of ML. In this approach:
 
 - The model is provided with input (X) and the correct output (Y)
 - The model learns the relationship between X and Y.
-- After training, the model can predict Y for new X values.
+- After training, the model can predict Y for new X values
 
 ### Supervised Learning Example: Predicting House Prices
 Consider a dataset of houses with their square footage (X) and price (Y):
